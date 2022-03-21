@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,3 +21,10 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['middleware'=>'auth', 'namespace' => 'App\Http\Controllers' ], function (){
+    Route::group(['namespace'=>'Invoice', 'prefix'=>'invoices'], function(){
+        Route::get('/create', 'CreateController')->name('invoices.create');
+        Route::post('/', 'StoreController')->name('invoices.store');
+    });
+});
