@@ -14,8 +14,8 @@ class StoreController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $customer = Customer::create($request->customer);
-        $invoice = Invoice::create($request->invoice + ['customer_id' => $customer->id]);
+
+        $invoice = Invoice::create($request->invoice);
 
         for($i = 0; $i < count($request->product);$i++){
             if(isset($request->qty[$i]) && isset($request->price[$i])) {
@@ -27,17 +27,6 @@ class StoreController extends Controller
                 ]);
             }
         }
-
-        for($i = 0; $i < count($request->customer_fields);$i++){
-            if(isset($request->customer_fields[$i]['field_key']) && isset($request->customer_fields[$i]['field_value'])) {
-                CustomerField::create([
-                    'customer_id' => $customer->id,
-                    'field_key' => $request->customer_fields[$i]['field_key'],
-                    'field_value' => $request->customer_fields[$i]['field_value'],
-                ]);
-            }
-        }
-
-        return response([],201);
+        return redirect()->route('invoices.index');
     }
 }

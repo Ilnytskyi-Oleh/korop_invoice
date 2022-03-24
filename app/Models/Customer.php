@@ -9,5 +9,17 @@ class Customer extends Model
 {
     use HasFactory;
 
+    protected $table = 'customers';
+
     protected $guarded = false;
+
+    public function customer_fields()
+    {
+        return $this->hasMany(CustomerField::class);
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
 }

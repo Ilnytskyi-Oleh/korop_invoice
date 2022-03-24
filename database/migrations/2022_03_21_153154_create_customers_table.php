@@ -20,10 +20,12 @@ return new class extends Migration
             $table->string('postcode')->nullable();
             $table->string('city');
             $table->string('state')->nullable();
-            $table->string('country');
+            $table->unsignedBigInteger('country_id');
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->timestamps();
+
+            $table->foreign('country_id')->references('id')->on('countries');
         });
     }
 
